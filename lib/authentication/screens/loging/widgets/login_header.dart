@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:stem_shop/utils/constants/image_strings.dart';
-import 'package:stem_shop/utils/constants/sizes.dart';
-import 'package:stem_shop/utils/constants/text_strings.dart';
+import 'package:stem_union/utils/constants/image_strings.dart';
+import 'package:stem_union/utils/constants/sizes.dart';
+
 
 class LoginHeader extends StatelessWidget {
   const LoginHeader({
@@ -19,16 +19,16 @@ class LoginHeader extends StatelessWidget {
         Image(
           height: 150,
           image: AssetImage(
-            dark ? TImages.darkAppLogoPng : TImages.lightAppLogoPng,
+            dark ? TImages.google : TImages.google,
           ),
         ),
         Text(
-          TTexts.loginTitle,
+          'Welcome Back',
           style: Theme.of(context).textTheme.headlineMedium,
         ),
         const SizedBox(height: TSizes.sm),
         Text(
-          TTexts.loginSubTitle,
+          'Please enter your details to sign in',
           style: Theme.of(context).textTheme.bodyMedium,
         ),
       ],

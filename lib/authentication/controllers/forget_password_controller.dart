@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:stem_union/authentication/repositories/authentication_repositrories.dart';
+import 'package:stem_union/authentication/screens/reset_password.dart';
+import 'package:stem_union/utils/helpers/network_manager.dart';
+import 'package:stem_union/utils/popups/full_screen_loader.dart';
+import 'package:stem_union/utils/popups/loaders.dart';
 
 
 class ForgetPasswordController extends GetxController {

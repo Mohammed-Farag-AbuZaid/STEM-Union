@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:stem_union/utils/constants/colors.dart';
+import 'package:stem_union/utils/device/device_utility.dart';
+import 'package:stem_union/utils/helpers/helper_functions.dart';
 class TTabBar extends StatelessWidget implements PreferredSizeWidget {
   final List<Widget> tabs;
 

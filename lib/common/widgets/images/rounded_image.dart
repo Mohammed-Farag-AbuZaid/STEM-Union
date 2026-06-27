@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:stem_union/utils/constants/colors.dart';
+import 'package:stem_union/utils/constants/image_strings.dart';
+import 'package:stem_union/utils/constants/sizes.dart';
 
 class TRoundedImage extends StatelessWidget {
   const TRoundedImage({
@@ -29,7 +32,7 @@ class TRoundedImage extends StatelessWidget {
   final Color backgroundColor;
 
 ImageProvider _resolveImage(String path) {
-  if (path.isEmpty) return AssetImage(TImages.shopNow);
+  if (path.isEmpty) return AssetImage(TImages.loading);
   if (path.startsWith('http://') || path.startsWith('https://')) {
     return NetworkImage(path);
   }

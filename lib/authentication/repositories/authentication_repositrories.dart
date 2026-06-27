@@ -1,10 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/src/extension_navigation.dart';
-import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:stem_union/authentication/screens/email_verification.dart';
+import 'package:stem_union/authentication/screens/loging/login.dart';
+import 'package:stem_union/utils/exceptions/firebase_auth_exceptions.dart';
+import 'package:stem_union/utils/exceptions/firebase_exceptions.dart';
+import 'package:stem_union/utils/exceptions/formate_exceptions.dart';
 
 class AuthenticationRepository extends GetxController {
   static AuthenticationRepository get instance => Get.find();
@@ -19,7 +22,6 @@ class AuthenticationRepository extends GetxController {
     final user = _auth.currentUser;
 
     if (user != null) {
-      // If the user is logged in
       if (user.emailVerified) {
         final doc = await FirebaseFirestore.instance
             .collection('users')
@@ -28,17 +30,9 @@ class AuthenticationRepository extends GetxController {
         if (!doc.exists ||
             (doc.data() ?? {})['stemSchool'] == null ||
             (doc.data()!['stemSchool'] as String).isEmpty) {
-          Get.offAll(
-            () => const ChangeAcademicInfo(
-              showBackArrow: false,
-              fullMessage: false,
-              title: 'Your Account Setup is Incomplete',
-              description:
-                  'It looks like your account information has not been fully set up yet. This usually happens when you sign in with Google before creating an account on the TF Unions website. Please visit the TF Unions website to complete your registration and account details.',
-            ),
-          );
+
         } else {
-          Get.offAll(() => const NavigationMenu());
+
         }
       } else {
         Get.offAll(() => const EmailVerification());
@@ -47,7 +41,7 @@ class AuthenticationRepository extends GetxController {
       deviceStorage.writeIfNull('IsFirstTime', true);
       deviceStorage.read('IsFirstTime') != true
           ? Get.offAll(() => const LoginScreen())
-          : Get.offAll(const OnBoardingScreen());
+          : Get.offAll(() => const LoginScreen());
     }
   }
 
@@ -101,10 +95,7 @@ class AuthenticationRepository extends GetxController {
 
   Future<void> logout() async {
     try {
-      try {
-        await GoogleSignIn().signOut();
-      } catch (_) {}
-      await FirebaseAuth.instance.signOut();
+      await _auth.signOut();
       Get.offAll(() => const LoginScreen());
     } on FirebaseAuthException catch (e) {
       throw TFirebaseAuthException(e.code).message;
@@ -117,21 +108,9 @@ class AuthenticationRepository extends GetxController {
 
   Future<UserCredential?> signInWithGoogle() async {
     try {
-      // Trigger the authentication flow
-      final GoogleSignInAccount? userAccount = await GoogleSignIn().signIn();
-
-      // Obtain the auth details from the request
-      final GoogleSignInAuthentication? googleAuth =
-          await userAccount?.authentication;
-
-      // Create a new credential
-      final credentials = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
-      );
-
-      // Once signed in, return the UserCredential
-      return await _auth.signInWithCredential(credentials);
+      GoogleAuthProvider googleProvider = GoogleAuthProvider();
+      googleProvider.addScope('email');
+      return await _auth.signInWithPopup(googleProvider);
     } on FirebaseAuthException catch (e) {
       throw TFirebaseAuthException(e.code).message;
     } on FirebaseException catch (e) {

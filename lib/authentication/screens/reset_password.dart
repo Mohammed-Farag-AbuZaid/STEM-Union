@@ -3,6 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:stem_union/authentication/controllers/forget_password_controller.dart';
+import 'package:stem_union/authentication/screens/loging/login.dart';
+import 'package:stem_union/utils/constants/image_strings.dart';
+import 'package:stem_union/utils/constants/sizes.dart';
+import 'package:stem_union/utils/helpers/helper_functions.dart';
 
 class ResetPassword extends StatelessWidget {
   const ResetPassword({super.key, this.title, this.message, this.email});
@@ -32,7 +37,7 @@ class ResetPassword extends StatelessWidget {
             children: [
               // Image
               Image(
-              image: const AssetImage(TImages.emailSentImage),
+              image: const AssetImage(TImages.receiveEmail),
               width: THelperFunctions.screenWidth() * 0.6,
             ),
             const SizedBox(height: TSizes.spaceBwSections),

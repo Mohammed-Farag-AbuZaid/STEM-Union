@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:stem_union/utils/constants/colors.dart';
+import 'package:stem_union/utils/helpers/helper_functions.dart';
+import 'package:stem_union/utils/popups/animation_loader.dart';
 
 
 class TFuelScreenLoader {

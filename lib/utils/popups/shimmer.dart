@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:stem_union/utils/helpers/helper_functions.dart';
 
 class TShimerEffect extends StatelessWidget {
   const TShimerEffect({

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:stem_union/bindings/general_bindings.dart';
+import 'package:stem_union/utils/constants/colors.dart';
+import 'package:stem_union/utils/theme/theme.dart';
 
 
 class App extends StatelessWidget {

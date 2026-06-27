@@ -1,5 +1,8 @@
 
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:stem_union/utils/formatters/formatters.dart';
+
 class UserModel {
   final String id;
   String firstName;
