@@ -3,15 +3,16 @@ import 'package:stem_union/utils/constants/colors.dart';
 import 'package:stem_union/utils/helpers/helper_functions.dart';
 
 class VolunteerButton extends StatelessWidget {
-  const VolunteerButton({super.key, this.text = 'Become a volunteer '});
+  const VolunteerButton({super.key, this.text = 'Become a volunteer ', this.onPressed});
 
   final String text;
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
     final isDark = THelperFunctions.isDarkMode(context);
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: onPressed,
       child: Padding(
         padding: const EdgeInsets.only(left: 16, right: 16),
         child: Text(
@@ -26,14 +27,15 @@ class VolunteerButton extends StatelessWidget {
 }
 
 class TransparentButton extends StatelessWidget {
-  const TransparentButton({super.key, this.text = 'Learn more'});
+  const TransparentButton({super.key, this.text = 'Learn more', this.onPressed});
   final String text;
+  final VoidCallback? onPressed;
   @override
   Widget build(BuildContext context) {
     final isDark = THelperFunctions.isDarkMode(context);
 
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.transparent,
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),

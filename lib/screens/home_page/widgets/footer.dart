@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/context_extensions.dart';
-import 'package:stem_union/screens/home_page/app_routs.dart';
+import 'package:stem_union/screens/home_page/home.dart';
 import 'package:stem_union/utils/constants/colors.dart';
 import 'package:stem_union/utils/helpers/helper_functions.dart';
 import 'package:url_launcher/url_launcher.dart' as url_launcher;
@@ -19,21 +18,31 @@ class StemUnionFooter extends StatelessWidget {
   ];
 
   void _handleLinkTap(int index) {
+    final ctrl = Get.find<HomeScrollController>();
     switch (index) {
       case 0:
-        Get.offAllNamed(AppRoutes.home);
+        ctrl.scrollToKey(ctrl.servicesKey);
         break;
       case 1:
-        Get.toNamed(AppRoutes.volunteer);
+        ctrl.scrollToKey(ctrl.volunteerKey);
         break;
       case 2:
-        url_launcher.launchUrl(Uri.parse('https://stem-shop.vercel.app/'));
+        url_launcher.launchUrl(
+          Uri.parse('https://stem-shop.vercel.app/'),
+          mode: url_launcher.LaunchMode.externalApplication,
+        );
         break;
       case 3:
-        url_launcher.launchUrl(Uri.parse('https://stem-hub.vercel.app/'));
+        url_launcher.launchUrl(
+          Uri.parse('https://stem-hub.vercel.app/'),
+          mode: url_launcher.LaunchMode.externalApplication,
+        );
         break;
       case 4:
-        url_launcher.launchUrl(Uri.parse('https://tfunions.vercel.app/'));
+        url_launcher.launchUrl(
+          Uri.parse('https://tfunions.vercel.app/'),
+          mode: url_launcher.LaunchMode.externalApplication,
+        );
         break;
     }
   }
@@ -44,16 +53,10 @@ class StemUnionFooter extends StatelessWidget {
     final isMobile = context.width < 700;
 
     final borderColor = isDark ? const Color(0xFF1A1A1A) : TColors.grey;
-    final logoColor = isDark
-        ? const Color(0xFF333333)
-        : const Color(0xFFAAAAAA);
+    final logoColor = isDark ? const Color(0xFF333333) : const Color(0xFFAAAAAA);
     final amber = isDark ? TColors.secondry : TColors.primary;
-    final linkColor = isDark
-        ? const Color(0xFF333333)
-        : const Color(0xFFAAAAAA);
-    final rightColor = isDark
-        ? const Color(0xFF222222)
-        : const Color(0xFFBBBBBB);
+    final linkColor = isDark ? const Color(0xFF333333) : const Color(0xFFAAAAAA);
+    final rightColor = isDark ? const Color(0xFF222222) : const Color(0xFFBBBBBB);
 
     final logo = Text.rich(
       TextSpan(
@@ -64,15 +67,9 @@ class StemUnionFooter extends StatelessWidget {
           color: logoColor,
         ),
         children: [
-          TextSpan(
-            text: '_',
-            style: TextStyle(color: amber),
-          ),
+          TextSpan(text: '_', style: TextStyle(color: amber)),
           const TextSpan(text: 'Union · part of  '),
-          TextSpan(
-            text: 'TF-Unions',
-            style: TextStyle(color: amber),
-          ),
+          TextSpan(text: 'TF-Unions', style: TextStyle(color: amber)),
         ],
       ),
     );
@@ -81,15 +78,12 @@ class StemUnionFooter extends StatelessWidget {
       spacing: 20,
       runSpacing: 8,
       children: [
-        for (final link in _links)
+        for (int i = 0; i < _links.length; i++)
           _FooterLink(
-            text: link,
+            text: _links[i],
             color: linkColor,
             amber: amber,
-            onTap: () {
-              final index = _links.indexOf(link);
-              _handleLinkTap(index);
-            },
+            onTap: () => _handleLinkTap(i),
           ),
       ],
     );

@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stem_union/authentication/repositories/authentication_repositrories.dart';
 import 'package:stem_union/bindings/general_bindings.dart';
+import 'package:stem_union/screens/home_page/home.dart';
+import 'package:stem_union/screens/home_page/app_routs.dart';
 import 'package:stem_union/utils/theme/theme.dart';
-
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -16,13 +17,14 @@ class App extends StatelessWidget {
       theme: TAppTheme.lightTheme,
       darkTheme: TAppTheme.darkTheme,
       initialBinding: GeneralBindings(),
+      getPages: [
+        GetPage(name: AppRoutes.home, page: () => const HomePage()),
+      ],
       builder: (context, child) {
         return Container(
           color: Theme.of(context).scaffoldBackgroundColor,
           alignment: Alignment.topCenter,
-          
-            child: child!,
-          
+          child: child!,
         );
       },
       home: Builder(
