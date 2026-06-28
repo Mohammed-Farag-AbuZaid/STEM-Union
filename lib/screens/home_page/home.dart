@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stem_union/common/styles/blueprint_background.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -7,9 +8,17 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text(
-          'Home Page',
-          style: Theme.of(context).textTheme.headlineMedium,
+        child: 
+        BlueprintGrid(
+          child: Container(
+            width: double.infinity,
+            height: double.infinity,
+            color: Colors.transparent,
+            child: const Text(
+              'Home Page',
+              style: TextStyle(fontSize: 24),
+            ),
+          ),
         ),
       ),
     );
