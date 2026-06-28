@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:stem_union/utils/constants/image_strings.dart';
 import 'package:stem_union/utils/constants/sizes.dart';
 
-
 class LoginHeader extends StatelessWidget {
   const LoginHeader({
     super.key,
@@ -17,11 +16,12 @@ class LoginHeader extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Image(
-          height: 150,
+          height: 80, // reduced from 150 — more web-appropriate
           image: AssetImage(
             dark ? TImages.google : TImages.google,
           ),
         ),
+        const SizedBox(height: TSizes.sm),
         Text(
           'Welcome Back',
           style: Theme.of(context).textTheme.headlineMedium,

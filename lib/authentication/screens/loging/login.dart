@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get.dart';
 import 'package:stem_union/authentication/controllers/loging_controllers.dart';
 import 'package:stem_union/common/styles/spacing_styles.dart';
 import 'package:stem_union/utils/constants/colors.dart';
@@ -19,47 +18,47 @@ class LoginScreen extends StatelessWidget {
     final controller = Get.put(LoginController());
 
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: TSpacingStyle.paddingWithAppBarHieght,
-          child: Column(
-            children: [
-              LoginHeader(dark: dark),
-              const LoginForm(),
-
-              // Divider
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+      body: Center(
+        child: SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 500),
+            child: Padding(
+              padding: TSpacingStyle.paddingWithAppBarHieght,
+              child: Column(
                 children: [
-                  Flexible(
-                    child: Divider(
-                      color: dark ? TColors.darkGrey : TColors.grey,
-                      thickness: 0.5,
-                      indent: 60,
-                      endIndent: 5,
-                    ),
-                  ),
-                  Text(
-                    ' Or continue with ',
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                  Flexible(
-                    child: Divider(
-                      color: dark ? TColors.darkGrey : TColors.grey,
-                      thickness: 0.5,
-                      indent: 5,
-                      endIndent: 60,
-                    ),
-                  ),
-                ],
-              ),
+                  LoginHeader(dark: dark),
+                  const LoginForm(),
 
-              SizedBox(height: TSizes.spaceBwSections),
+                  // Divider
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Flexible(
+                        child: Divider(
+                          color: dark ? TColors.darkGrey : TColors.grey,
+                          thickness: 0.5,
+                          indent: 60,
+                          endIndent: 5,
+                        ),
+                      ),
+                      Text(
+                        ' Or continue with ',
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                      Flexible(
+                        child: Divider(
+                          color: dark ? TColors.darkGrey : TColors.grey,
+                          thickness: 0.5,
+                          indent: 5,
+                          endIndent: 60,
+                        ),
+                      ),
+                    ],
+                  ),
 
-              // Google Sign-In button
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+                  const SizedBox(height: TSizes.spaceBwSections),
+
+                  // Google Sign-In button
                   Container(
                     decoration: BoxDecoration(
                       border: Border.all(
@@ -81,7 +80,7 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ],
               ),
-            ],
+            ),
           ),
         ),
       ),

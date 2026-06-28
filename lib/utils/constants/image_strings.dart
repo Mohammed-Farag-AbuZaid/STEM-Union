@@ -8,7 +8,7 @@ class TImages {
   // success Images
   static const String receiveEmail = "assets/images/recieve_email.png";
   // loading
-  static const String loading = "assets/images/loading.json";
+  static const String loading = "assets/loading/loading.json";
 
   // user profile
   static const String user = "assets/images/user.png";

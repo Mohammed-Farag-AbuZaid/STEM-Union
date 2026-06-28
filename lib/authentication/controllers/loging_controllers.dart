@@ -6,6 +6,7 @@ import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:stem_union/authentication/controllers/user_controller.dart';
 import 'package:stem_union/authentication/repositories/authentication_repositrories.dart';
+import 'package:stem_union/utils/constants/image_strings.dart';
 import 'package:stem_union/utils/helpers/network_manager.dart';
 import 'package:stem_union/utils/popups/full_screen_loader.dart';
 import 'package:stem_union/utils/popups/loaders.dart';
@@ -29,7 +30,7 @@ class LoginController extends GetxController {
     try {
       TFuelScreenLoader.openLoadingDialog(
         'Logging in...',
-        'assets/images/loading.json',
+        TImages.loading,
       );
 
       final isConnected = await NetworkManager.instance.isConnected();
@@ -68,7 +69,7 @@ class LoginController extends GetxController {
     try {
       TFuelScreenLoader.openLoadingDialog(
         'Signing in with Google...',
-        'assets/images/loading.json',
+        TImages.loading,
       );
 
       final isConnected = await NetworkManager.instance.isConnected();

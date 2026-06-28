@@ -5,10 +5,10 @@ import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:stem_union/authentication/repositories/authentication_repositrories.dart';
 import 'package:stem_union/authentication/screens/reset_password.dart';
+import 'package:stem_union/utils/constants/image_strings.dart';
 import 'package:stem_union/utils/helpers/network_manager.dart';
 import 'package:stem_union/utils/popups/full_screen_loader.dart';
 import 'package:stem_union/utils/popups/loaders.dart';
-
 
 class ForgetPasswordController extends GetxController {
   static ForgetPasswordController get instance => Get.find();
@@ -16,15 +16,14 @@ class ForgetPasswordController extends GetxController {
   /// Variables
   final email = TextEditingController();
 
-  final GlobalKey<FormState> forgetPasswordFormKey =
-      GlobalKey<FormState>();
+  final GlobalKey<FormState> forgetPasswordFormKey = GlobalKey<FormState>();
 
   /// Send Reset Password Email
   Future<void> sendPasswordResetEmail() async {
     try {
       TFuelScreenLoader.openLoadingDialog(
         'Sending password reset email...',
-        'assets/images/loading.json',
+        TImages.loading,
       );
 
       // Check Internet Connection
@@ -49,8 +48,7 @@ class ForgetPasswordController extends GetxController {
       final userEmail = email.text.trim();
 
       // Send Reset Email
-      await AuthenticationRepository.instance
-          .sendPasswordResetEmail(userEmail);
+      await AuthenticationRepository.instance.sendPasswordResetEmail(userEmail);
 
       TFuelScreenLoader.stopLoading();
 
@@ -60,18 +58,11 @@ class ForgetPasswordController extends GetxController {
             'A password reset email has been sent to $userEmail. Please check your inbox.',
       );
 
-      Get.to(
-        () => ResetPassword(
-          email: userEmail,
-        ),
-      );
+      Get.to(() => ResetPassword(email: userEmail));
     } catch (e) {
       TFuelScreenLoader.stopLoading();
 
-      TLoaders.errorSnackBar(
-        title: 'Error',
-        message: e.toString(),
-      );
+      TLoaders.errorSnackBar(title: 'Error', message: e.toString());
     }
   }
 
@@ -80,7 +71,7 @@ class ForgetPasswordController extends GetxController {
     try {
       TFuelScreenLoader.openLoadingDialog(
         'Sending password reset email...',
-        'assets/images/loading.json',
+        TImages.loading,
       );
 
       // Check Internet Connection
@@ -97,8 +88,7 @@ class ForgetPasswordController extends GetxController {
       }
 
       // Send Reset Email
-      await AuthenticationRepository.instance
-          .sendPasswordResetEmail(email);
+      await AuthenticationRepository.instance.sendPasswordResetEmail(email);
 
       TFuelScreenLoader.stopLoading();
 
@@ -110,10 +100,7 @@ class ForgetPasswordController extends GetxController {
     } catch (e) {
       TFuelScreenLoader.stopLoading();
 
-      TLoaders.errorSnackBar(
-        title: 'Error',
-        message: e.toString(),
-      );
+      TLoaders.errorSnackBar(title: 'Error', message: e.toString());
     }
   }
 

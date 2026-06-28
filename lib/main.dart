@@ -3,6 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:stem_union/app.dart';
+import 'package:stem_union/authentication/controllers/user_controller.dart';
+import 'package:stem_union/authentication/repositories/authentication_repositrories.dart';
+import 'package:stem_union/authentication/repositories/user_repository.dart';
+import 'package:stem_union/firebase_options.dart';
 
 
 Future<void> main() async {

@@ -4,14 +4,13 @@ import 'package:stem_union/utils/constants/colors.dart';
 import 'package:stem_union/utils/helpers/helper_functions.dart';
 import 'package:stem_union/utils/popups/animation_loader.dart';
 
-
 class TFuelScreenLoader {
   static void openLoadingDialog(String text, String animation) {
     showDialog(
       context: Get.overlayContext!,
       barrierDismissible: false,
       builder: (_) => PopScope(
-        canPop: false, 
+        canPop: false,
         child: Container(
           color: THelperFunctions.isDarkMode(Get.context!)
               ? TColors.dark
@@ -19,6 +18,8 @@ class TFuelScreenLoader {
           width: double.infinity,
           height: double.infinity,
           child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const SizedBox(height: 250),
               TAnimationLoaderWidget(text: text, animation: animation),

@@ -3,8 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:stem_union/authentication/screens/change_academic_ifo.dart';
 import 'package:stem_union/authentication/screens/email_verification.dart';
 import 'package:stem_union/authentication/screens/loging/login.dart';
+import 'package:stem_union/screens/home_page/home.dart';
 import 'package:stem_union/utils/exceptions/firebase_auth_exceptions.dart';
 import 'package:stem_union/utils/exceptions/firebase_exceptions.dart';
 import 'package:stem_union/utils/exceptions/formate_exceptions.dart';
@@ -30,9 +32,18 @@ class AuthenticationRepository extends GetxController {
         if (!doc.exists ||
             (doc.data() ?? {})['stemSchool'] == null ||
             (doc.data()!['stemSchool'] as String).isEmpty) {
-
+          Get.offAll(
+            () => const ChangeAcademicInfo(
+              showBackArrow: false,
+              fullMessage: false,
+              title:
+                  'Your Account Setup is Incomplete or you are not a STEM Student',
+              description:
+                  'It looks like your account information has not been fully set up yet. This usually happens when you sign in with Google before creating an account on the TF Unions website. Please visit the TF Unions website to complete your registration and account details.',
+            ),
+          );
         } else {
-
+          Get.offAll(() => const HomePage());
         }
       } else {
         Get.offAll(() => const EmailVerification());
