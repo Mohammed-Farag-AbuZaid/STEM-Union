@@ -73,7 +73,6 @@ class HeroSection extends StatelessWidget {
                 TransparentButton(
                   text: 'Explore our services',
                   onPressed: () {
-                    // Scroll to services section instead of navigating
                     final ctrl = Get.find<HomeScrollController>();
                     ctrl.scrollToKey(ctrl.servicesKey);
                   },
