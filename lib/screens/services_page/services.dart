@@ -3,6 +3,7 @@ import 'package:get/get_utils/src/extensions/context_extensions.dart';
 import 'package:stem_union/screens/services_page/project_card.dart';
 import 'package:stem_union/utils/constants/colors.dart';
 import 'package:stem_union/utils/helpers/helper_functions.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ServicesPage extends StatelessWidget {
   const ServicesPage({super.key});
@@ -10,7 +11,7 @@ class ServicesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = THelperFunctions.isDarkMode(context);
-    final isMobile = context.width < 700; 
+    final isMobile = context.width < 700;
 
     return Padding(
       padding: const EdgeInsets.all(40),
@@ -53,15 +54,13 @@ class ServicesPage extends StatelessWidget {
                     _HubCard(),
                   ],
                 )
-              : const IntrinsicHeight(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Expanded(child: _ShopCard()),
-                      SizedBox(width: 16),
-                      Expanded(child: _HubCard()),
-                    ],
-                  ),
+              : Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: const [
+                    Expanded(child: _ShopCard()),
+                    SizedBox(width: 16),
+                    Expanded(child: _HubCard()),
+                  ],
                 ),
         ],
       ),
@@ -87,8 +86,7 @@ class _ShopCard extends StatelessWidget {
         ('cross-school', 'buy & sell'),
       ],
       linkLabel: 'Open STEM-Shop →',
-      onTap: () {
-      },
+      onTap: () { launchUrl(Uri.parse('https://stem-shop.vercel.app/')); },
     );
   }
 }
@@ -111,8 +109,7 @@ class _HubCard extends StatelessWidget {
         ('rated', 'by quality'),
       ],
       linkLabel: 'Open STEM-Hub →',
-      onTap: () {
-      },
+      onTap: () { launchUrl(Uri.parse('https://stem-hub.vercel.app/')); },
     );
   }
 }

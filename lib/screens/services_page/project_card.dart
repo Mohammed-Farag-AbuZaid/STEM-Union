@@ -41,135 +41,109 @@ class EcoCard extends StatelessWidget {
       child: BlueprintGrid(
         child: Padding(
           padding: const EdgeInsets.all(32),
-
-          child: SingleChildScrollView(
-            physics: const NeverScrollableScrollPhysics(),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                // .eco-top
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    // .eco-icon
-                    Container(
-                      width: 40,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF130D00),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Icon(icon, color: amber, size: 18),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF130D00),
+                      borderRadius: BorderRadius.circular(8),
                     ),
-                    // .eco-pill
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 9,
-                        vertical: 3,
+                    child: Icon(icon, color: amber, size: 18),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 3),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(color: amber.withOpacity(0.3), width: 0.5),
+                    ),
+                    child: Text(
+                      pill,
+                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                            color: amber,
+                            fontFamily: 'JetBrainsMono',
+                            fontSize: 10,
+                          ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 18),
+              Text(
+                name,
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      fontSize: 19,
+                      fontWeight: FontWeight.w600,
+                    ),
+              ),
+              const SizedBox(height: 10),
+              ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 420),
+                child: Text(
+                  description,
+                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                        color: TColors.darkGrey,
+                        fontSize: 13,
+                        height: 1.7,
                       ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(
-                          color: amber.withOpacity(0.3),
-                          width: 0.5,
+                ),
+              ),
+              const SizedBox(height: 22),
+              Wrap(
+                spacing: 24,
+                runSpacing: 12,
+                children: [
+                  for (final (number, label) in stats)
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          number,
+                          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                fontFamily: 'JetBrainsMono',
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                                color: isDark ? TColors.grey : TColors.darkerGrey,
+                              ),
                         ),
-                      ),
-                      child: Text(
-                        pill,
-                        style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                          color: amber,
-                          fontFamily: 'JetBrainsMono',
-                          fontSize: 10,
+                        const SizedBox(height: 2),
+                        Text(
+                          label,
+                          style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                                fontFamily: 'JetBrainsMono',
+                                fontSize: 10,
+                                color: TColors.darkGrey,
+                              ),
                         ),
-                      ),
+                      ],
+                    ),
+                ],
+              ),
+              const SizedBox(height: 22),
+              InkWell(
+                onTap: onTap,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      linkLabel,
+                      style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                            fontFamily: 'JetBrainsMono',
+                            fontSize: 12,
+                            color: amber,
+                          ),
                     ),
                   ],
                 ),
-
-                const SizedBox(height: 18),
-                // .eco-name
-                Text(
-                  name,
-                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    fontSize: 19,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-
-                const SizedBox(height: 10),
-                // .eco-desc
-                ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 420),
-                  child: Text(
-                    description,
-                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                      color: TColors.darkGrey,
-                      fontSize: 13,
-                      height: 1.7,
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 22),
-
-                Wrap(
-                  spacing: 24,
-                  runSpacing: 12,
-                  children: [
-                    for (final (number, label) in stats)
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          // .eco-stat-num
-                          Text(
-                            number,
-                            style: Theme.of(context).textTheme.titleMedium
-                                ?.copyWith(
-                                  fontFamily: 'JetBrainsMono',
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600,
-                                  color: isDark
-                                      ? TColors.grey
-                                      : TColors.darkerGrey,
-                                ),
-                          ),
-                          const SizedBox(height: 2),
-                          Text(
-                            label,
-                            style: Theme.of(context).textTheme.labelSmall
-                                ?.copyWith(
-                                  fontFamily: 'JetBrainsMono',
-                                  fontSize: 10,
-                                  color: TColors.darkGrey,
-                                ),
-                          ),
-                        ],
-                      ),
-                  ],
-                ),
-
-                const SizedBox(height: 22),
-                // .eco-link
-                InkWell(
-                  onTap: onTap,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        linkLabel,
-                        style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                          fontFamily: 'JetBrainsMono',
-                          fontSize: 12,
-                          color: amber,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
