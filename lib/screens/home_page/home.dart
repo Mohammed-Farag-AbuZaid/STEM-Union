@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:stem_union/common/styles/blueprint_background.dart';
+import 'package:stem_union/screens/home_page/widgets/hero_section.dart';
+import 'package:stem_union/screens/home_page/widgets/nav_bar.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -7,19 +8,12 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: 
-        BlueprintGrid(
-          child: Container(
-            width: double.infinity,
-            height: double.infinity,
-            color: Colors.transparent,
-            child: const Text(
-              'Home Page',
-              style: TextStyle(fontSize: 24),
-            ),
-          ),
-        ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          NavBar(),
+          HeroSection(),
+        ],
       ),
     );
   }

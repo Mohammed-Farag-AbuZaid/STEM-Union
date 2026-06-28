@@ -16,9 +16,11 @@ class BlueprintGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     final isDark = THelperFunctions.isDarkMode(context);
 
     return CustomPaint(
+
       size: Size.infinite,
       painter: _BlueprintGridPainter(
         cellSize: cellSize,
@@ -44,7 +46,7 @@ class _BlueprintGridPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = lineColor
+      ..color = lineColor.withAlpha(50) // Adjust the alpha for transparency
       ..strokeWidth = lineWidth;
 
     // Vertical lines
