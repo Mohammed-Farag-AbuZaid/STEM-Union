@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_utils/src/extensions/context_extensions.dart';
 import 'package:stem_union/common/styles/blueprint_background.dart';
+import 'package:stem_union/common/widgets/buttons/buttons.dart';
 import 'package:stem_union/utils/constants/colors.dart';
 import 'package:stem_union/utils/helpers/helper_functions.dart';
 
@@ -25,7 +26,7 @@ class HeroSection extends StatelessWidget {
                 color: isDark ? TColors.secondry : TColors.primary,
               ),
             ),
-
+    
             const SizedBox(height: 20),
             RichText(
               text: TextSpan(
@@ -46,7 +47,7 @@ class HeroSection extends StatelessWidget {
                 ],
               ),
             ),
-
+    
             SizedBox(height: 20),
             SizedBox(
               width: 540,
@@ -58,29 +59,23 @@ class HeroSection extends StatelessWidget {
                 ),
               ),
             ),
-
+    
             SizedBox(height: 30),
             Row(
               children: [
-                ElevatedButton(
-                  onPressed: () {
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 16, right: 16),
-                    child: Text(
-                      'Become a volunteer → ',
-                      style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        color:  isDark ? Colors.black : Colors.white,
-                      ),
-                      
-                    ),
-                  ),
-                ),
+                VolunteerButton(),
+                SizedBox(width: 20),
+                TransparentButton(text: 'Explore our services',),
               ],
             ),
+    
+            SizedBox(height: 40,),
+    
+            
           ],
         ),
       ),
     );
   }
 }
+
