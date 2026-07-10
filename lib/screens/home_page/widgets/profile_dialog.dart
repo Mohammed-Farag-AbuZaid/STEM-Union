@@ -158,7 +158,7 @@ class _ProfileDialog extends StatelessWidget {
                               ? Image.network(
                                   user.profilePicture,
                                   fit: BoxFit.cover,
-                                  errorBuilder: (_, __, ___) =>
+                                  errorBuilder: (_, _, _) =>
                                       _defaultAvatar(_capitalize(user.firstName), avatarBg, amber),
                                 )
                               : _defaultAvatar(_capitalize(user.firstName), avatarBg, amber),
@@ -184,7 +184,7 @@ class _ProfileDialog extends StatelessWidget {
                           ),
                         ),
                       const SizedBox(height: 20),
-                      Divider(color: mutedColor.withOpacity(0.15)),
+                      Divider(color: mutedColor.withValues(alpha: 0.15)),
                       const SizedBox(height: 12),
                       _infoRow('Email', user.email, textColor, mutedColor),
                       _infoRow('Phone', user.phone, textColor, mutedColor),
@@ -192,7 +192,7 @@ class _ProfileDialog extends StatelessWidget {
                       _infoRow('Grade', user.grade, textColor, mutedColor),
                       _infoRow('School', user.stemSchool, textColor, mutedColor),
                       const SizedBox(height: 20),
-                      Divider(color: mutedColor.withOpacity(0.15)),
+                      Divider(color: mutedColor.withValues(alpha: 0.15)),
                       const SizedBox(height: 16),
                       Row(
                         children: [
@@ -213,7 +213,7 @@ class _ProfileDialog extends StatelessWidget {
                               label: const Text('Log Out'),
                               style: OutlinedButton.styleFrom(
                                 foregroundColor: textColor,
-                                side: BorderSide(color: mutedColor.withOpacity(0.3)),
+                                side: BorderSide(color: mutedColor.withValues(alpha: 0.3)),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10),
                                 ),

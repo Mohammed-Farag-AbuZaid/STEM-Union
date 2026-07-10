@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_utils/src/extensions/context_extensions.dart';
 import 'package:stem_union/common/styles/blueprint_background.dart';
 import 'package:stem_union/common/widgets/buttons/buttons.dart';
 import 'package:stem_union/screens/home_page/home.dart';

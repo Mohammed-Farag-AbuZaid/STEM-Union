@@ -61,7 +61,7 @@ class EcoCard extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 3),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: amber.withOpacity(0.3), width: 0.5),
+                      border: Border.all(color: amber.withValues(alpha: 0.3), width: 0.5),
                     ),
                     child: Text(
                       pill,

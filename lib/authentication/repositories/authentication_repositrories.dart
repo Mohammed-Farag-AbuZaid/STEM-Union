@@ -20,39 +20,61 @@ class AuthenticationRepository extends GetxController {
 
   User? get authUser => _auth.currentUser;
 
-  void screenRedirect() async {
-    final user = _auth.currentUser;
+  @override
+  void onReady() {
+    super.onReady();
 
-    if (user != null) {
-      if (user.emailVerified) {
-        final doc = await FirebaseFirestore.instance
-            .collection('users')
-            .doc(user.uid)
-            .get();
-        if (!doc.exists ||
-            (doc.data() ?? {})['stemSchool'] == null ||
-            (doc.data()!['stemSchool'] as String).isEmpty) {
-          Get.offAll(
-            () => const ChangeAcademicInfo(
-              showBackArrow: false,
-              fullMessage: false,
-              title:
-                  'Your Account Setup is Incomplete or you are not a STEM Student',
-              description:
-                  'It looks like your account information has not been fully set up yet. This usually happens when you sign in with Google before creating an account on the TF Unions website. Please visit the TF Unions website to complete your registration and account details.',
-            ),
-          );
+    screenRedirect();
+
+    _auth.authStateChanges().listen((user) {
+      screenRedirect();
+    });
+  }
+
+  bool _isRedirecting = false;
+
+  void screenRedirect() async {
+    if (_isRedirecting) return;
+    _isRedirecting = true;
+    try {
+      final user = _auth.currentUser;
+
+      if (user != null) {
+        if (user.emailVerified) {
+          final hasProfile = await _hasCompletedProfile(user.uid);
+          if (!hasProfile) {
+            Get.offAll(
+              () => const ChangeAcademicInfo(
+                showBackArrow: false,
+                fullMessage: false,
+                title: 'Complete Your Profile',
+                description:
+                    'We couldn\'t find your account details. This usually happens when you sign in with Google before completing registration on the TF Unions website. Please complete your profile to continue.',
+              ),
+            );
+          } else {
+            Get.offAll(() => const HomePage());
+          }
         } else {
-          Get.offAll(() => const HomePage());
+          Get.offAll(() => const EmailVerification());
         }
       } else {
-        Get.offAll(() => const EmailVerification());
+        deviceStorage.writeIfNull('IsFirstTime', true);
+        Get.offAll(() => const LoginScreen());
       }
-    } else {
-      deviceStorage.writeIfNull('IsFirstTime', true);
-      deviceStorage.read('IsFirstTime') != true
-          ? Get.offAll(() => const LoginScreen())
-          : Get.offAll(() => const LoginScreen());
+    } finally {
+      _isRedirecting = false;
+    }
+  }
+
+  Future<bool> _hasCompletedProfile(String uid) async {
+    try {
+      final doc =
+          await FirebaseFirestore.instance.collection('users').doc(uid).get();
+      return doc.exists;
+    } on FirebaseException catch (e) {
+      if (kDebugMode) print('Firestore check failed: ${e.code}');
+      return false;
     }
   }
 

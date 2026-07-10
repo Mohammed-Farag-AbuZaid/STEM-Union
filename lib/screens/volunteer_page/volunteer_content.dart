@@ -97,7 +97,7 @@ class VolunteerContent extends StatelessWidget {
                           TextSpan(
                             text: 'TF-Unions',
                             style: TextStyle(
-                              color: textColor.withOpacity(0.8),
+                              color: textColor.withValues(alpha: 0.8),
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -106,7 +106,7 @@ class VolunteerContent extends StatelessWidget {
                           TextSpan(
                             text: 'STEM-Union',
                             style: TextStyle(
-                              color: textColor.withOpacity(0.8),
+                              color: textColor.withValues(alpha: 0.8),
                               fontWeight: FontWeight.w500,
                             ),
                           ),

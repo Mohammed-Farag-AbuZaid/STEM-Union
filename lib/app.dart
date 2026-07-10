@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:stem_union/authentication/repositories/authentication_repositrories.dart';
 import 'package:stem_union/bindings/general_bindings.dart';
 import 'package:stem_union/screens/home_page/home.dart';
 import 'package:stem_union/screens/home_page/app_routs.dart';
@@ -17,7 +16,9 @@ class App extends StatelessWidget {
       theme: TAppTheme.lightTheme,
       darkTheme: TAppTheme.darkTheme,
       initialBinding: GeneralBindings(),
+      initialRoute: AppRoutes.loading,
       getPages: [
+        GetPage(name: AppRoutes.loading, page: () => const _LoadingScreen()),
         GetPage(name: AppRoutes.home, page: () => const HomePage()),
       ],
       builder: (context, child) {
@@ -27,14 +28,20 @@ class App extends StatelessWidget {
           child: child!,
         );
       },
-      home: Builder(
-        builder: (context) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            AuthenticationRepository().screenRedirect();
-          });
-          return Container();
-        },
-      ),
+    );
+  }
+}
+
+/// Shown briefly while AuthenticationRepository's authStateChanges
+/// listener (onReady()) decides where to send the user — LoginScreen,
+/// EmailVerification, ChangeAcademicInfo, or HomePage.
+class _LoadingScreen extends StatelessWidget {
+  const _LoadingScreen();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: Center(child: CircularProgressIndicator()),
     );
   }
 }

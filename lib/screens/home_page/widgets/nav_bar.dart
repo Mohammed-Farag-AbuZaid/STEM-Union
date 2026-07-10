@@ -99,7 +99,7 @@ class _NavBarState extends State<NavBar> {
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
               margin: const EdgeInsets.symmetric(horizontal: 2),
               decoration: BoxDecoration(
-                color: isActive ? amber.withOpacity(0.1) : Colors.transparent,
+                color: isActive ? amber.withValues(alpha: 0.1) : Colors.transparent,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Text(
@@ -233,7 +233,7 @@ class _AvatarButton extends StatelessWidget {
                   ? Image.network(
                       profilePic,
                       fit: BoxFit.cover,
-                      errorBuilder: (_, __, ___) => _initialCircle(initial),
+                      errorBuilder: (_, _, _) => _initialCircle(initial),
                     )
                   : _initialCircle(initial),
             ),
