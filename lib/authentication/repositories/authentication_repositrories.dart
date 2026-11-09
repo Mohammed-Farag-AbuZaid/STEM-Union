@@ -1,8 +1,10 @@
+import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:http/http.dart' as http;
 import 'package:stem_union/authentication/screens/change_academic_ifo.dart';
 import 'package:stem_union/authentication/screens/email_verification.dart';
 import 'package:stem_union/authentication/screens/loging/login.dart';
@@ -14,7 +16,8 @@ import 'package:stem_union/utils/exceptions/formate_exceptions.dart';
 class AuthenticationRepository extends GetxController {
   static AuthenticationRepository get instance => Get.find();
 
-  /// Variables
+  static const String _tfApiBaseUrl = 'https://n8n.tfunions.com/tf-api';
+
   final deviceStorage = GetStorage();
   final _auth = FirebaseAuth.instance;
 
@@ -23,9 +26,7 @@ class AuthenticationRepository extends GetxController {
   @override
   void onReady() {
     super.onReady();
-
     screenRedirect();
-
     _auth.authStateChanges().listen((user) {
       screenRedirect();
     });
@@ -37,6 +38,12 @@ class AuthenticationRepository extends GetxController {
     if (_isRedirecting) return;
     _isRedirecting = true;
     try {
+      final vpsUser = deviceStorage.read('tf_vps_user');
+      if (vpsUser != null) {
+        Get.offAll(() => const HomePage());
+        return;
+      }
+
       final user = _auth.currentUser;
 
       if (user != null) {
@@ -49,7 +56,7 @@ class AuthenticationRepository extends GetxController {
                 fullMessage: false,
                 title: 'Complete Your Profile',
                 description:
-                    'We couldn\'t find your account details. This usually happens when you sign in with Google before completing registration on the TF Unions website. Please complete your profile to continue.',
+                    'We couldn\'t find your account details. Please visit the TF Passport portal to complete your profile.',
               ),
             );
           } else {
@@ -69,6 +76,13 @@ class AuthenticationRepository extends GetxController {
 
   Future<bool> _hasCompletedProfile(String uid) async {
     try {
+      final res = await http
+          .get(Uri.parse('$_tfApiBaseUrl/api/collections/users/$uid'))
+          .timeout(const Duration(seconds: 6));
+      if (res.statusCode == 200) return true;
+    } catch (_) {}
+
+    try {
       final doc =
           await FirebaseFirestore.instance.collection('users').doc(uid).get();
       return doc.exists;
@@ -78,10 +92,26 @@ class AuthenticationRepository extends GetxController {
     }
   }
 
-  Future<UserCredential> loginWithEmailAndPassword(
+  Future<UserCredential?> loginWithEmailAndPassword(
     String email,
     String password,
   ) async {
+    try {
+      final res = await http
+          .post(
+            Uri.parse('$_tfApiBaseUrl/auth/login'),
+            headers: {'Content-Type': 'application/json'},
+            body: jsonEncode({'email': email, 'password': password}),
+          )
+          .timeout(const Duration(seconds: 8));
+      if (res.statusCode == 200) {
+        final body = jsonDecode(res.body) as Map<String, dynamic>;
+        await deviceStorage.write('tf_vps_token', body['access_token']);
+        await deviceStorage.write('tf_vps_user', body['user']);
+        return null;
+      }
+    } catch (_) {}
+
     try {
       return await _auth.signInWithEmailAndPassword(
         email: email,
@@ -128,6 +158,8 @@ class AuthenticationRepository extends GetxController {
 
   Future<void> logout() async {
     try {
+      await deviceStorage.remove('tf_vps_token');
+      await deviceStorage.remove('tf_vps_user');
       await _auth.signOut();
       Get.offAll(() => const LoginScreen());
     } on FirebaseAuthException catch (e) {
