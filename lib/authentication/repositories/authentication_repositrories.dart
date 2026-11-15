@@ -1,10 +1,8 @@
-import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:http/http.dart' as http;
 import 'package:stem_union/authentication/screens/change_academic_ifo.dart';
 import 'package:stem_union/authentication/screens/email_verification.dart';
 import 'package:stem_union/authentication/screens/loging/login.dart';
@@ -15,8 +13,6 @@ import 'package:stem_union/utils/exceptions/formate_exceptions.dart';
 
 class AuthenticationRepository extends GetxController {
   static AuthenticationRepository get instance => Get.find();
-
-  static const String _tfApiBaseUrl = 'https://n8n.tfunions.com/tf-api';
 
   final deviceStorage = GetStorage();
   final _auth = FirebaseAuth.instance;
@@ -38,12 +34,6 @@ class AuthenticationRepository extends GetxController {
     if (_isRedirecting) return;
     _isRedirecting = true;
     try {
-      final vpsUser = deviceStorage.read('tf_vps_user');
-      if (vpsUser != null) {
-        Get.offAll(() => const HomePage());
-        return;
-      }
-
       final user = _auth.currentUser;
 
       if (user != null) {
@@ -76,13 +66,6 @@ class AuthenticationRepository extends GetxController {
 
   Future<bool> _hasCompletedProfile(String uid) async {
     try {
-      final res = await http
-          .get(Uri.parse('$_tfApiBaseUrl/api/collections/users/$uid'))
-          .timeout(const Duration(seconds: 6));
-      if (res.statusCode == 200) return true;
-    } catch (_) {}
-
-    try {
       final doc =
           await FirebaseFirestore.instance.collection('users').doc(uid).get();
       return doc.exists;
@@ -92,35 +75,19 @@ class AuthenticationRepository extends GetxController {
     }
   }
 
-  Future<UserCredential?> loginWithEmailAndPassword(
+  Future<UserCredential> loginWithEmailAndPassword(
     String email,
     String password,
   ) async {
-    try {
-      final res = await http
-          .post(
-            Uri.parse('$_tfApiBaseUrl/auth/login'),
-            headers: {'Content-Type': 'application/json'},
-            body: jsonEncode({'email': email, 'password': password}),
-          )
-          .timeout(const Duration(seconds: 8));
-      if (res.statusCode == 200) {
-        final body = jsonDecode(res.body) as Map<String, dynamic>;
-        await deviceStorage.write('tf_vps_token', body['access_token']);
-        await deviceStorage.write('tf_vps_user', body['user']);
-        return null;
-      }
-    } catch (_) {}
-
     try {
       return await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
     } on FirebaseAuthException catch (e) {
-      throw TFirebaseAuthException(e.code);
+      throw TFirebaseAuthException(e.code).message;
     } on FirebaseException catch (e) {
-      throw TFirebaseException(e.code);
+      throw TFirebaseException(e.code).message;
     } on FormatException catch (_) {
       throw const TFormatException();
     } catch (e) {
@@ -158,8 +125,6 @@ class AuthenticationRepository extends GetxController {
 
   Future<void> logout() async {
     try {
-      await deviceStorage.remove('tf_vps_token');
-      await deviceStorage.remove('tf_vps_user');
       await _auth.signOut();
       Get.offAll(() => const LoginScreen());
     } on FirebaseAuthException catch (e) {
@@ -173,9 +138,12 @@ class AuthenticationRepository extends GetxController {
 
   Future<UserCredential?> signInWithGoogle() async {
     try {
-      GoogleAuthProvider googleProvider = GoogleAuthProvider();
-      googleProvider.addScope('email');
-      return await _auth.signInWithPopup(googleProvider);
+      final googleProvider = GoogleAuthProvider()
+        ..addScope('email')
+        ..addScope('profile');
+      return kIsWeb
+          ? await _auth.signInWithPopup(googleProvider)
+          : await _auth.signInWithProvider(googleProvider);
     } on FirebaseAuthException catch (e) {
       throw TFirebaseAuthException(e.code).message;
     } on FirebaseException catch (e) {
