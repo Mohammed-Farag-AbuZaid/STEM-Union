@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_utils/src/extensions/context_extensions.dart';
 import 'package:stem_union/authentication/controllers/user_controller.dart';
 import 'package:stem_union/screens/home_page/widgets/profile_dialog.dart';
 import 'package:stem_union/utils/constants/colors.dart';

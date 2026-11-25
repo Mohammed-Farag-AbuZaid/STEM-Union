@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_utils/src/extensions/context_extensions.dart';
-import 'package:url_launcher/url_launcher.dart' as url_launcher;
 import 'package:stem_union/utils/constants/colors.dart';
 import 'package:stem_union/utils/helpers/helper_functions.dart';
 import 'package:url_launcher/url_launcher.dart' as launcher;
 
 class VolunteerContent extends StatelessWidget {
   const VolunteerContent({super.key});
-
-  static const _volunteerUrl = 'https://tfunions.vercel.app/volunteer';
 
   @override
   Widget build(BuildContext context) {

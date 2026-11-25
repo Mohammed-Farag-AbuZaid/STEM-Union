@@ -11,8 +11,7 @@ import 'package:stem_union/firebase_options.dart';
 
 
 Future<void> main() async {
-  final WidgetsBinding widgetsBinding =
-      WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
 
   await GetStorage.init();
 
